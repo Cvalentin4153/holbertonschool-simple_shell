@@ -1,4 +1,6 @@
 #include "shell.h"
+char **environ;
+int last_status = 0;
 
 /**
  * find_command - Searches for a command in the PATH
@@ -63,9 +65,8 @@ char *find_command(char *command)
  *
  * Return: void
  */
-extern char **environ;
 
-void execute_command(char **args)
+int execute_command(char **args)
 {
 	pid_t pid;
 	int status;
@@ -77,7 +78,7 @@ void execute_command(char **args)
 		if (access(full_path, X_OK) != 0)
 		{
 			fprintf(stderr, "%s: Command not found\n", args[0]);
-			return;
+			return (127);
 		}
 	}
 	else
@@ -86,7 +87,7 @@ void execute_command(char **args)
 		if (!full_path)
 		{
 			fprintf(stderr, "%s: Command not found\n", args[0]);
-			return;
+			return (127);
 		}
 	}
 
@@ -98,18 +99,24 @@ void execute_command(char **args)
 			perror("Error");
 			if (full_path != args[0])
 				free(full_path);
-			exit(EXIT_FAILURE);
+			exit(126);
 		}
 	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			last_status = WEXITSTATUS(status);
+		else
+			last_status = 1;
 	}
 	else
 	{
 		perror("Fork failed");
+		last_status = 1;
 	}
 
 	if (full_path != args[0])
 		free(full_path);
+	return (last_status);
 }

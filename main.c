@@ -14,8 +14,8 @@ int main(void)
 	ssize_t nread;
 	char *args[10];
 	int i;
-
 	int is_interactive = isatty(STDIN_FILENO);
+
 	while (1)
 	{
 
@@ -29,14 +29,13 @@ int main(void)
 			if (is_interactive)
 				write(STDOUT_FILENO, "\nExiting shell...\n", 18);
 			free(line);
-			exit(0);
+			exit(last_status);
 		}
 		if (nread > 0)
 			line[nread - 1] = '\0';
 
 		args[0] = strtok(line, " \t");
 		i = 1;
-
 		while ((args[i] = strtok(NULL, " \t")) != NULL)
 			i++;
 
@@ -46,7 +45,9 @@ int main(void)
 		if (strcmp(args[0], "exit") == 0)
 		{
 			free(line);
-			exit(0);
+			if (args[1] == NULL)
+				exit(last_status);
+			exit(atoi(args[1]));
 		}
 
 		if (strcmp(args[0], "cd") == 0)
@@ -60,7 +61,7 @@ int main(void)
 			print_env();
 			continue;
 		}
-		execute_command(args);
+		last_status = execute_command(args);
 	}
 	free(line);
 	return (0);

@@ -12,11 +12,12 @@
 #include <dirent.h>
 
 extern char **environ;
+extern int last_status;
 
 void exit_shell(void);
 int change_directory(char **args);
 void print_env(void);
-void execute_command(char **args);
+int execute_command(char **args);
 char *find_command(char *command);
 
 #endif
