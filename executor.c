@@ -69,7 +69,7 @@ void execute_command(char **args)
 	int status;
 	char *full_path;
 
-	full_path = find_command(args[0]); // Locate the command in PATH
+	full_path = find_command(args[0]);
 	if (!full_path)
 	{
 		fprintf(stderr, "%s: Command not found\n", args[0]);
@@ -77,7 +77,7 @@ void execute_command(char **args)
 	}
 
 	pid = fork();
-	if (pid == 0) // Child process
+	if (pid == 0)
 	{
 		if (execve(full_path, args, environ) == -1)
 		{
@@ -86,7 +86,7 @@ void execute_command(char **args)
 			exit(EXIT_FAILURE);
 		}
 	}
-	else if (pid > 0) // Parent process
+	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
 	}
