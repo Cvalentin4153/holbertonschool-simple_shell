@@ -26,9 +26,9 @@ int main(void)
 
 		if  (nread == -1)
 		{
+			free(line);
 			if (is_interactive)
 				write(STDOUT_FILENO, "\nExiting shell...\n", 18);
-			free(line);
 			exit(last_status);
 		}
 		if (nread > 0)
@@ -62,6 +62,8 @@ int main(void)
 			continue;
 		}
 		last_status = execute_command(args);
+		if (!is_interactive)
+			break;
 	}
 	free(line);
 	return (0);

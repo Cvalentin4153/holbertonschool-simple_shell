@@ -65,7 +65,7 @@ void print_env(void)
 	extern char **environ;
 	int i = 0;
 
-	if (environ == NULL || environ[0] == NULL)
+	if (environ == NULL)
 	{
 		return;
 	}
