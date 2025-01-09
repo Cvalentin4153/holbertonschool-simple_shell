@@ -65,10 +65,6 @@ void print_env(void)
 	extern char **environ;
 	int i = 0;
 
-	if (environ == NULL)
-	{
-		return;
-	}
 	while (environ[i])
 	{
 		printf("%s\n", environ[i]);
