@@ -66,6 +66,5 @@ while (dir != NULL)
 	if (!full_path)
 		return (NULL);
 
-	sprintf
 }
 }
