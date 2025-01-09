@@ -14,5 +14,7 @@ void execute_command(char **environ, char **args, int *last_status);
 void print_env(char **environ);
 int handle_builtin(char **args, char **environ, int *last_status);
 void tokenize_input(char *line, char **args);
+char *get_full_path(char **environ, char *command);
+void free_full_path(char *full_path, char *original);
 
 #endif

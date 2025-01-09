@@ -10,31 +10,21 @@ void execute_command(char **environ, char **args, int *last_status)
 {
 	pid_t pid;
 	int status;
+	char *full_path = get_full_path(environ, args[0]);
 
-	if (strchr(args[0], '/') != NULL)
+	if (!full_path)
 	{
-		if (access(args[0], X_OK) != 0)
-		{
-			fprintf(stderr, "hsh: Command not found\n");
-			*last_status = 127;
-			return;
-		}
+		fprintf(stderr, "hsh: Command not found\n");
+		*last_status = 127;
+		return;
 	}
-	else
-	{
-		args[0] = find_command(environ, args[0]);
-		if (!args[0])
-		{
-			fprintf(stderr, "hsh: Command not found\n");
-			*last_status = 127;
-			return;
-		}
-	}
+
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(args[0], args, environ);
+		execve(full_path, args, environ);
 		perror("Error");
+		free_full_path(full_path, args[0]);
 		exit(1);
 	}
 	else if (pid > 0)
@@ -47,4 +37,6 @@ void execute_command(char **environ, char **args, int *last_status)
 		perror("Fork failed");
 		*last_status = 1;
 	}
+
+	free_full_path(full_path, args[0]);
 }
