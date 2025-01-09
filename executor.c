@@ -10,6 +10,7 @@ void execute_command(char **environ, char **args, int *last_status)
 {
 	pid_t pid;
 	int status;
+
 	if (strchr(args[0], '/') != NULL)
 	{
 		if (access(args[0], X_OK) != 0)
