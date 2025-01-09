@@ -1,68 +1,46 @@
 #include "shell.h"
+#define MAX_ARGS 10
 /**
  * main - Entry point of the shell program
- *
- * Description:
- * Continuously displays a prompt ($) and waits for user commands.
- *
  * Return: 0 on successful execution
  */
-int main(void)
+int main(int argc, char **argv, char **environ)
 {
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t nread;
-	char *args[10];
-	int i;
+	char *args[MAX_ARGS];
+	int last_status = 0;
 	int is_interactive = isatty(STDIN_FILENO);
+
+	(void)argc;
+	(void)argv;
 
 	while (1)
 	{
-
 		if (is_interactive)
 			write(STDOUT_FILENO, "$ ", 2);
 
 		nread = getline(&line, &len, stdin);
-
-		if  (nread == -1)
+		if (nread == -1)
 		{
 			if (is_interactive)
-				write(STDOUT_FILENO, "\nExiting shell...\n", 18);
-			free(line);
-			exit(last_status);
+				write(STDOUT_FILENO, "Exiting shell...\n", 17);
+			break;
 		}
 		if (nread > 0)
 			line[nread - 1] = '\0';
 
-		args[0] = strtok(line, " \t");
-		i = 1;
-		while ((args[i] = strtok(NULL, " \t")) != NULL)
-			i++;
-
-		if (args[0] ==  NULL)
-			continue;
-
-		if (strcmp(args[0], "exit") == 0)
+		tokenize_input(line, args);
+		if (args[0] != NULL)
 		{
-			free(line);
-			if (args[1] == NULL)
-				exit(last_status);
-			exit(atoi(args[1]));
+			if (handle_builtin(args, environ, &last_status))
+				continue;
+			execute_command(environ, args, &last_status);
 		}
-
-		if (strcmp(args[0], "cd") == 0)
-		{
-			change_directory(args);
-			continue;
-		}
-
-		if (strcmp(args[0], "env") == 0)
-		{
-			print_env();
-			continue;
-		}
-		last_status = execute_command(args);
+		if (!is_interactive)
+			break;
 	}
 	free(line);
-	return (0);
+	return (last_status);
 }

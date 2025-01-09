@@ -6,19 +6,13 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <dirent.h>
+#include <sys/types.h>
 
-extern char **environ;
-extern int last_status;
-
-char *get_env(const char *name);
-void exit_shell(void);
-int change_directory(char **args);
-void print_env(void);
-int execute_command(char **args);
-char *find_command(char *command);
+char *get_env(char **environ, const char *name);
+char *find_command(char **environ, char *command);
+void execute_command(char **environ, char **args, int *last_status);
+void print_env(char **environ);
+int handle_builtin(char **args, char **environ, int *last_status);
+void tokenize_input(char *line, char **args);
 
 #endif

@@ -1,73 +1,20 @@
 #include "shell.h"
-
-
 /**
- * exit_shell - Terminates the shell program
- *
- * Description:
- * This function is called when the user types "exit".
- *
- * Return: Does not return (exits the program)
+ * handle_builtin - Handles built-in shell commands
+ * @args: Tokenized arguments
+ * @environ: Environment variables
+ * @last_status: Pointer to the last status variable
+ * Return: 1 if a built-in command was executed, 0 otherwise
  */
-void exit_shell(void)
+int handle_builtin(char **args, char **environ, int *last_status)
 {
-	exit(0);
-}
+	if (strcmp(args[0], "exit") == 0)
+		exit(*last_status);
 
-/**
- * change_directory - Handles the `cd` command
- * @args: Array of strings (command and arguments)
- *
- * Description:
- * Changes the current working directory.
- * If no argument is provided, changes to the HOME directory.
- * If an invalid directory is provided, displays an error message.
- *
- * Return: 0 on success, -1 on failure
- */
-int change_directory(char **args)
-{
-	char *dir;
-
-	if (args[1] == NULL)
+	if (strcmp(args[0], "env") == 0)
 	{
-		dir = getenv("HOME");
-		if (dir == NULL)
-		{
-			fprintf(stderr, "cd: HOME not set\n");
-			return (-1);
-		}
-	}
-	else
-	{
-		dir = args[1];
-	}
-
-	if (chdir(dir) != 0)
-	{
-		perror("cd");
-		return (-1);
+		print_env(environ);
+		return (1);
 	}
 	return (0);
-}
-
-/**
- * print_env - Prints the current environment variables
- *
- * Description:
- * Iterates through the `environ` global variable and prints each
- * environment variable.
- *
- * Return: void
- */
-void print_env(void)
-{
-	extern char **environ;
-	int i = 0;
-
-	while (environ[i])
-	{
-		printf("%s\n", environ[i]);
-		i++;
-	}
 }
