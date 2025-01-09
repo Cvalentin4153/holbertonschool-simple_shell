@@ -17,6 +17,7 @@ int main(void)
 
 	while (1)
 	{
+
 		write(STDOUT_FILENO, "$ ", 2);
 		nread = getline(&line, &len, stdin);
 
@@ -26,13 +27,17 @@ int main(void)
 			free(line);
 			exit(0);
 		}
+		if (nread > 0)
+			line[nread - 1] = '\0';
 
-		line[nread - 1] = '\0';
 		args[0] = strtok(line, " \t");
 		i = 1;
 
 		while ((args[i] = strtok(NULL, " \t")) != NULL)
 			i++;
+
+		if (args[0] ==  NULL)
+			continue;
 
 		if (strcmp(args[0], "exit") == 0)
 		{
