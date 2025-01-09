@@ -1,5 +1,5 @@
-#ifndef HEADER
-#define HEADER
+#ifndef SHELL_H
+#define SHELL_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,9 +11,12 @@
 #include <fcntl.h>
 #include <dirent.h>
 
+extern char **environ;
+
 void exit_shell(void);
 int change_directory(char **args);
 void print_env(void);
 void execute_command(char **args);
+char *find_command(char *command);
 
 #endif

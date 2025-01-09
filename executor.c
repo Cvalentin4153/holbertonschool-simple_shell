@@ -63,6 +63,8 @@ char *find_command(char *command)
  *
  * Return: void
  */
+extern char **environ;
+
 void execute_command(char **args)
 {
 	pid_t pid;
