@@ -14,6 +14,7 @@
 extern char **environ;
 extern int last_status;
 
+char *get_env(const char *name);
 void exit_shell(void);
 int change_directory(char **args);
 void print_env(void);
