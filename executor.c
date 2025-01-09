@@ -16,7 +16,7 @@ int last_status = 0;
 
 char *find_command(char *command)
 {
-	char *path = getenv("PATH");
+	char *path = get_env("PATH");
 	char *dir, *full_path;
 	size_t len;
 
