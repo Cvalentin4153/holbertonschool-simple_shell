@@ -15,15 +15,19 @@ int main(void)
 	char *args[10];
 	int i;
 
+	int is_interactive = isatty(STDIN_FILENO);
 	while (1)
 	{
 
-		write(STDOUT_FILENO, "$ ", 2);
+		if (is_interactive)
+			write(STDOUT_FILENO, "$ ", 2);
+
 		nread = getline(&line, &len, stdin);
 
 		if  (nread == -1)
 		{
-			write(STDOUT_FILENO, "\nExiting shell...\n", 18);
+			if (is_interactive)
+				write(STDOUT_FILENO, "\nExiting shell...\n", 18);
 			free(line);
 			exit(0);
 		}
@@ -58,5 +62,6 @@ int main(void)
 		}
 		execute_command(args);
 	}
+	free(line);
 	return (0);
 }
