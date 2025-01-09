@@ -71,11 +71,23 @@ void execute_command(char **args)
 	int status;
 	char *full_path;
 
-	full_path = find_command(args[0]);
-	if (!full_path)
+	if (strchr(args[0], '/') != NULL)
 	{
-		fprintf(stderr, "%s: Command not found\n", args[0]);
-		return;
+		full_path = args[0];
+		if (access(full_path, X_OK) != 0)
+		{
+			fprintf(stderr, "%s: Command not found\n", args[0]);
+			return;
+		}
+	}
+	else
+	{
+		full_path = find_command(args[0]);
+		if (!full_path)
+		{
+			fprintf(stderr, "%s: Command not found\n", args[0]);
+			return;
+		}
 	}
 
 	pid = fork();
@@ -84,7 +96,8 @@ void execute_command(char **args)
 		if (execve(full_path, args, environ) == -1)
 		{
 			perror("Error");
-			free(full_path);
+			if (full_path != args[0])
+				free(full_path);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -96,5 +109,7 @@ void execute_command(char **args)
 	{
 		perror("Fork failed");
 	}
-	free(full_path);
+
+	if (full_path != args[0])
+		free(full_path);
 }
