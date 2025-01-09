@@ -1,8 +1,19 @@
 #include "shell.h"
 #define MAX_ARGS 10
 /**
- * main - Entry point of the shell program
- * Return: 0 on successful execution
+ * main - Entry point for the simple shell program
+ * @argc: Argument count (unused)
+ * @argv: Argument vector (unused)
+ * @environ: Array of environment variables
+ *
+ * Description:
+ * This function implements a simple shell program. It continuously
+ * displays a prompt in interactive mode and waits for user commands.
+ * In non-interactive mode, it processes commands from standard input.
+ * It handles built-in commands like `exit` and `env` and executes
+ * external commands using `execve`. The shell exits on EOF (Ctrl+D).
+ *
+ * Return: 0 on successful execution, or the exit status of the last command.
  */
 int main(int argc, char **argv, char **environ)
 {
