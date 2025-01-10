@@ -14,6 +14,8 @@ void execute_command(char **environ, char **args, int *last_status)
 
 	if (!full_path)
 	{
+		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+		*last_status = 127;
 		return;
 	}
 

@@ -16,21 +16,14 @@
  */
 char *resolve_path(char **environ, char *command, int *last_status)
 {
-	if (strchr(command, '/') != NULL)
+	(void) last_status;
+
+	if (strchr(command, '/'))
 	{
-		if (access(command, F_OK) != 0)
-		{
-			fprintf(stderr, "./hsh: 1: %s: not found\n", command);
-			*last_status = 127;
-			return (NULL);
-		}
-		if (access(command, X_OK) != 0)
-		{
-			fprintf(stderr, "./hsh: 1: %s: not found\n", command);
-			*last_status = 127;
-			return (NULL);
-		}
-		return (command);
+		if (access(command, X_OK) == 0)
+			return (command);
+		return (NULL);
+		
 	}
 	return (find_command(environ, command));
 }
