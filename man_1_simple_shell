@@ -1,0 +1,70 @@
+.TH hsh 1 "January 2024" "Simple Shell" "Shell Manual"
+
+.SH NAME
+hsh \- simple Unix command interpreter
+
+.SH SYNOPSIS
+.B hsh
+[\fIcommand_file\fR]
+
+.SH DESCRIPTION
+The
+.B hsh
+program is a simple Unix command interpreter similar to
+.B /bin/sh
+or
+.B /bin/bash,
+but with limited functionality. It reads commands from either standard input
+(non-interactive mode) or from the user in interactive mode.
+
+.PP
+If commands are piped into
+.B hsh
+or specified in a file, the shell processes them until EOF and then exits.
+Otherwise, if started without a file, the shell displays a prompt
+.BR "$ "
+and waits for user input.
+
+.SH OPTIONS
+The
+.B hsh
+program does not accept any specific command-line options. However, standard Unix
+conventions such as redirection and pipes apply.
+
+.SH BUILTINS
+.TP
+.B exit
+Exit the shell. If no argument is given, the shell exits with the status of
+the last command executed.
+
+.TP
+.B env
+Print the current environment variables.
+
+.SH EXAMPLES
+Running interactively:
+.EX
+$ hsh
+$ ls
+.B ...
+$ exit
+.EE
+
+Running non-interactively:
+.EX
+$ echo "ls" | hsh
+.B ...
+$ cat commands.txt | hsh
+.EE
+
+.SH SEE ALSO
+.BR sh (1),
+.BR bash (1),
+.BR dash (1)
+
+.SH AUTHORS
+Carlos Valentin cvalentin4153@outlook.com
+.SH BUGS
+No known bugs. Please report any issues to the project's repository.
+
+
