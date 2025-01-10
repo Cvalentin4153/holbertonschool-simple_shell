@@ -49,8 +49,6 @@ int main(int argc, char **argv, char **environ)
 				continue;
 			execute_command(environ, args, &last_status);
 		}
-		if (!is_interactive)
-			break;
 	}
 	free(line);
 	return (last_status);
