@@ -10,7 +10,7 @@ char *find_command(char **environ, char *command)
 	char *path = get_env(environ, "PATH"), *dir, *full_path;
 	size_t len;
 
-	if (!path)
+	if (!path || *path == '\0')
 		return (NULL);
 
 	path = strdup(path);
