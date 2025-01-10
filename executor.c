@@ -10,12 +10,10 @@ void execute_command(char **environ, char **args, int *last_status)
 {
 	pid_t pid;
 	int status;
-	char *full_path = get_full_path(environ, args[0]);
+	char *full_path = resolve_path(environ, args[0], last_status);
 
 	if (!full_path)
 	{
-		fprintf(stderr, "hsh: Command not found\n");
-		*last_status = 127;
 		return;
 	}
 
@@ -24,7 +22,8 @@ void execute_command(char **environ, char **args, int *last_status)
 	{
 		execve(full_path, args, environ);
 		perror("Error");
-		free_full_path(full_path, args[0]);
+		if (full_path != args[0])
+			free(full_path);
 		exit(1);
 	}
 	else if (pid > 0)
@@ -37,6 +36,6 @@ void execute_command(char **environ, char **args, int *last_status)
 		perror("Fork failed");
 		*last_status = 1;
 	}
-
-	free_full_path(full_path, args[0]);
+	if (full_path != args[0])
+		free(full_path);
 }
