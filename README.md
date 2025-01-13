@@ -32,4 +32,5 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 ```
 ## Author
 **Carlos Valentin**
-[Github Profile](https://github.com/Cvalentin4153) | [LinkedIn](www.linkedin.com/in/carlos-valentin-24706b336)
+[Github Profile](https://github.com/Cvalentin4153)
+[LinkedIn](www.linkedin.com/in/carlos-valentin-24706b336)
