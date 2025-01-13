@@ -34,3 +34,5 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 **Carlos Valentin**
 [Github Profile](https://github.com/Cvalentin4153)
 [LinkedIn](https://www.linkedin.com/in/carlos-valentin-24706b336/)
+
+Hi my name is Carlos Valentin! I am the creator and engineer who worked on this project, you can check out my work in my Github and connect with me on LinkedIn!
