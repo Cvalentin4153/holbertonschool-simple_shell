@@ -29,7 +29,7 @@ This repository contains a simple UNIX command interpreter (shell) written in C.
 Use `gcc` with the specified flags:
 ```bash
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
-
+```
 ## Author
-Carlos Valentin
-[GitHub Profile](https://github.com/Cvalentin4153) | [LinkedIn](www.linkedin.com/in/carlos-valentin-24706b336)
+**Carlos Valentin**
+[Github Profile](https://github.com/Cvalentin4153) | [LinkedIn](www.linkedin.com/in/carlos-valentin-24706b336)
